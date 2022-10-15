@@ -1,23 +1,58 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import Home from "../views/Home.vue";
+import mainView from "../views/eventsFolder/mainView";
+import testView from "../views/eventsFolder/testView";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "home",
-    component: HomeView,
+    component: Home,
   },
+
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/events/main",
+    name: "eventsMain",
+    component: mainView,
+  },
+
+  {
+    path: "/test/main",
+    name: "testMain",
+    component: testView,
+  },
+
+  {
+    path: "/test/main/:idEvent",
+    name: "testMainE",
+    component: testView,
+  },
+
+  {
+    path: "/test/mains/:idEvent/:active",
+    name: "testMainEA",
+    component: testView,
+  },
+
+  {
+    path: "/test/main/:idEvent/:idTest",
+    name: "testMainET",
+    component: testView,
+  },
+
+  {
+    path: "/test/main/:idEvent/:idTest/:idTypeTest",
+    name: "testMainETType",
+    component: testView,
+  },
+
+  {
+    path: "/test/main/:idEvent/:idTest/:idTypeTest/:typeCategory",
+    name: "testMainETTypeCategory",
+    component: testView,
   },
 ];
 

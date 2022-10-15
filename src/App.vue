@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
-  </div>
+  <v-app id="inspire">
+    <navigationDrawerVue />
+
+    <appbard />
+
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import appbard from "@/components/app-main/app-bard.vue";
+import navigationDrawerVue from "./components/app-main/navigation-drawer.vue";
+
+export default {
+  name: "App",
+  components: {
+    appbard,
+    navigationDrawerVue,
+  },
+  data: () => ({}),
+};
+</script>
+
+<style lang="scss">
+* {
+  font-family: "Roboto";
 }
 
-nav {
-  padding: 30px;
+.v-main {
+  background-color: #1b1e39 !important;
+  color: white !important;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+.v-main__wrap {
+  padding: 20px;
 
-nav a.router-link-exact-active {
-  color: #42b983;
+  @media (max-width: 800px) {
+    padding: 5px;
+  }
 }
 </style>
