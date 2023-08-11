@@ -17,7 +17,7 @@
         <v-btn
           color="orange"
           @click="_delResults()"
-          v-if="!$store.state.mode_juez"
+          v-if="!$store.state.mode_juez && $route.params.idTypeTest != 4"
           >LIMPIAR RESULTADOS</v-btn
         >
       </v-card-title>
@@ -145,8 +145,6 @@
           :items="itemsResults"
           :items-per-page="5"
           @click:row="_selectItem"
-          :sort-by="['parcial']"
-          :sort-desc="[true]"
           class="elevation-0 __data_table_main"
           v-if="
             $route.params.idTypeTest != 4 ||
@@ -154,6 +152,78 @@
             $store.state.mode_juez == false
           "
         >
+          <template v-slot:[`item.result1`]="{ item }">
+            <v-chip color="warning" v-if="item.bol1 == 1" small>-</v-chip>
+            <v-chip color="error" v-if="item.bol1 == 0" small>X</v-chip>
+            <v-chip
+              color="success"
+              v-if="item.bol1 == null && item.result1"
+              small
+              >{{ item.result1 }}</v-chip
+            >
+          </template>
+          <template v-slot:[`item.result2`]="{ item }">
+            <v-chip color="warning" v-if="item.bol2 == 1" small>-</v-chip>
+            <v-chip color="error" v-if="item.bol2 == 0" small>X</v-chip>
+            <v-chip
+              color="success"
+              v-if="item.bol2 == null && item.result2"
+              small
+              >{{ item.result2 }}</v-chip
+            >
+          </template>
+          <template v-slot:[`item.result3`]="{ item }">
+            <v-chip color="warning" v-if="item.bol3 == 1" small>-</v-chip>
+            <v-chip color="error" v-if="item.bol3 == 0" small>X</v-chip>
+            <v-chip
+              color="success"
+              v-if="item.bol3 == null && item.result3"
+              small
+              >{{ item.result3 }}</v-chip
+            >
+          </template>
+          <template v-slot:[`item.result4`]="{ item }">
+            <v-chip color="warning" v-if="item.bol4 == 1" small>-</v-chip>
+            <v-chip color="error" v-if="item.bol4 == 0" small>X</v-chip>
+            <v-chip
+              color="success"
+              v-if="item.bol4 == null && item.result4"
+              small
+              >{{ item.result4 }}</v-chip
+            >
+          </template>
+          <template v-slot:[`item.result5`]="{ item }">
+            <v-chip color="warning" v-if="item.bol5 == 1" small>-</v-chip>
+            <v-chip color="error" v-if="item.bol5 == 0" small>X</v-chip>
+            <v-chip
+              color="success"
+              v-if="item.bol5 == null && item.result5"
+              small
+              >{{ item.result5 }}</v-chip
+            >
+          </template>
+          <template v-slot:[`item.result6`]="{ item }">
+            <v-chip color="warning" v-if="item.bol6 == 1" small>-</v-chip>
+            <v-chip color="error" v-if="item.bol6 == 0" small>X</v-chip>
+            <v-chip
+              color="success"
+              v-if="item.bol6 == null && item.result6"
+              small
+              >{{ item.result6 }}</v-chip
+            >
+          </template>
+          <template v-slot:[`item.parcial`]="{ item }">
+            {{
+              Math.max(
+                item.bol1 == null ? item.result1 : null,
+                item.bol2 == null ? item.result2 : null,
+                item.bol3 == null ? item.result3 : null,
+                item.bol4 == null ? item.result4 : null,
+                item.bol5 == null ? item.result5 : null,
+                item.bol6 == null ? item.result6 : null
+              ).toFixed(2)
+            }}
+          </template>
         </v-data-table>
       </v-card-text>
 
@@ -182,84 +252,300 @@
         >
         <v-card-text>
           <v-row dense v-if="!onDevice">
-            <v-col md="2" cols="12">
+            <v-col class="border_re" md="2" cols="12">
+              <label for="">Resultado 1</label>
               <v-text-field
                 v-model="dataR1"
+                :disabled="bol1 != null"
+                @click.native="bol1 = null"
                 label="Resultado 1"
                 filled
+                :append-icon="'mdi-close'"
+                @click:append="dataR1 = null"
               ></v-text-field>
+              <v-row dense>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol1 = 0"
+                    :light="bol1 != 0"
+                    light
+                    color="error"
+                    :outlined="bol1 != 0"
+                    block
+                    dense
+                    small
+                    >X</v-btn
+                  >
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol1 = 1"
+                    :light="bol1 != 1"
+                    color="warning"
+                    :outlined="bol1 != 1"
+                    block
+                    dense
+                    small
+                    >-</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col class="border_re" md="2" cols="12">
+              <label for="">Resultado 2</label>
               <v-text-field
                 v-model="dataR2"
+                :disabled="bol2 != null"
+                @click.native="bol2 = null"
                 label="Resultado 2"
                 filled
+                :append-icon="'mdi-close'"
+                @click:append="dataR2 = null"
               ></v-text-field>
+              <v-row dense>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol2 = 0"
+                    :light="bol2 != 0"
+                    light
+                    color="error"
+                    :outlined="bol2 != 0"
+                    block
+                    dense
+                    small
+                    >X</v-btn
+                  >
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol2 = 1"
+                    :light="bol2 != 1"
+                    color="warning"
+                    :outlined="bol2 != 1"
+                    block
+                    dense
+                    small
+                    >-</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col class="border_re" md="2" cols="12">
+              <label for="">Resultado 3</label>
               <v-text-field
                 v-model="dataR3"
+                :disabled="bol3 != null"
+                @click.native="bol3 = null"
                 label="Resultado 3"
                 filled
+                :append-icon="'mdi-close'"
+                @click:append="dataR3 = null"
               ></v-text-field>
+              <v-row dense>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol3 = 0"
+                    :light="bol3 != 0"
+                    light
+                    color="error"
+                    :outlined="bol3 != 0"
+                    block
+                    dense
+                    small
+                    >X</v-btn
+                  >
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol3 = 1"
+                    :light="bol3 != 1"
+                    color="warning"
+                    :outlined="bol3 != 1"
+                    block
+                    dense
+                    small
+                    >-</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col class="border_re" md="2" cols="12">
+              <label for="">Resultado 4</label>
               <v-text-field
                 v-model="dataR4"
+                :disabled="bol4 != null"
+                @click.native="bol4 = null"
                 label="Resultado 4"
                 filled
+                :append-icon="'mdi-close'"
+                @click:append="dataR4 = null"
               ></v-text-field>
+              <v-row dense>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol4 = 0"
+                    :light="bol4 != 0"
+                    light
+                    color="error"
+                    :outlined="bol4 != 0"
+                    block
+                    dense
+                    small
+                    >X</v-btn
+                  >
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol4 = 1"
+                    :light="bol4 != 1"
+                    color="warning"
+                    :outlined="bol4 != 1"
+                    block
+                    dense
+                    small
+                    >-</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col class="border_re" md="2" cols="12">
+              <label for="">Resultado 5</label>
               <v-text-field
                 v-model="dataR5"
+                :disabled="bol5 != null"
+                @click.native="bol5 = null"
                 label="Resultado 5"
                 filled
+                :append-icon="'mdi-close'"
+                @click:append="dataR5 = null"
               ></v-text-field>
+              <v-row dense>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol5 = 0"
+                    :light="bol5 != 0"
+                    light
+                    color="error"
+                    :outlined="bol5 != 0"
+                    block
+                    dense
+                    small
+                    >X</v-btn
+                  >
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol5 = 1"
+                    :light="bol5 != 1"
+                    color="warning"
+                    :outlined="bol5 != 1"
+                    block
+                    dense
+                    small
+                    >-</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col class="border_re" md="2" cols="12">
+              <label for="">Resultado 6</label>
               <v-text-field
                 v-model="dataR6"
+                :disabled="bol6 != null"
+                @click.native="bol6 = null"
                 label="Resultado 6"
                 filled
+                :append-icon="'mdi-close'"
+                @click:append="dataR6 = null"
               ></v-text-field>
+              <v-row dense>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol6 = 0"
+                    :light="bol6 != 0"
+                    light
+                    color="error"
+                    :outlined="bol6 != 0"
+                    block
+                    dense
+                    small
+                    >X</v-btn
+                  >
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    @click="bol6 = 1"
+                    :light="bol6 != 1"
+                    color="warning"
+                    :outlined="bol6 != 1"
+                    block
+                    dense
+                    small
+                    >-</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col
+              v-if="$route.params.idTest == 869 || $route.params.idTest == 870"
+              md="2"
+              cols="12"
+            >
               <v-text-field
                 v-model="dataV1"
                 label="Viento 1"
                 filled
               ></v-text-field>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col
+              v-if="$route.params.idTest == 869 || $route.params.idTest == 870"
+              md="2"
+              cols="12"
+            >
               <v-text-field
                 v-model="dataV2"
                 label="Viento 2"
                 filled
               ></v-text-field>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col
+              v-if="$route.params.idTest == 869 || $route.params.idTest == 870"
+              md="2"
+              cols="12"
+            >
               <v-text-field
                 v-model="dataV3"
                 label="Viento 3"
                 filled
               ></v-text-field>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col
+              v-if="$route.params.idTest == 869 || $route.params.idTest == 870"
+              md="2"
+              cols="12"
+            >
               <v-text-field
                 v-model="dataV4"
                 label="Viento 4"
                 filled
               ></v-text-field>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col
+              v-if="$route.params.idTest == 869 || $route.params.idTest == 870"
+              md="2"
+              cols="12"
+            >
               <v-text-field
                 v-model="dataV5"
                 label="Viento 5"
                 filled
               ></v-text-field>
             </v-col>
-            <v-col md="2" cols="12">
+            <v-col
+              v-if="$route.params.idTest == 869 || $route.params.idTest == 870"
+              md="2"
+              cols="12"
+            >
               <v-text-field
                 v-model="dataV6"
                 label="Viento 6"
@@ -585,6 +871,12 @@ export default {
       dataV4: null,
       dataV5: null,
       dataV6: null,
+      bol1: null,
+      bol2: null,
+      bol3: null,
+      bol4: null,
+      bol5: null,
+      bol6: null,
 
       idM2: null,
 
@@ -678,6 +970,12 @@ export default {
       this.dataV4 = item.viento4;
       this.dataV5 = item.viento5;
       this.dataV6 = item.viento6;
+      this.bol1 = item.bol1;
+      this.bol2 = item.bol2;
+      this.bol3 = item.bol3;
+      this.bol4 = item.bol4;
+      this.bol5 = item.bol5;
+      this.bol6 = item.bol6;
       this.dialogResultCamp = true;
     },
     _getResults() {
@@ -874,6 +1172,12 @@ export default {
         result4: vm.dataR4,
         result5: vm.dataR5,
         result6: vm.dataR6,
+        bol1: vm.bol1,
+        bol2: vm.bol2,
+        bol3: vm.bol3,
+        bol4: vm.bol4,
+        bol5: vm.bol5,
+        bol6: vm.bol6,
         viento1: vm.dataV1,
         viento2: vm.dataV2,
         viento3: vm.dataV3,
@@ -1019,5 +1323,10 @@ export default {
   margin-top: 10px;
   text-decoration: none;
   color: white;
+}
+
+.border_re {
+  border: solid 1px white;
+  border-radius: 5px;
 }
 </style>

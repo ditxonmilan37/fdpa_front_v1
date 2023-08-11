@@ -47,7 +47,9 @@
           small
           @click="__openUploadFile(item.id)"
           color="info"
-          >ARCHIVO LIF</v-btn
+          >{{
+            $route.params.idTypeTest == 4 ? "CARGAR ATLETA" : "ARCHIVO LIF"
+          }}</v-btn
         >
 
         <v-btn

@@ -3,7 +3,7 @@
     <div>
       <v-toolbar class="__toolbar_main" dark flat>
         <v-toolbar-title>
-          <h3>EVENTOS 2022</h3>
+          <h3>EVENTOS 2023</h3>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field
