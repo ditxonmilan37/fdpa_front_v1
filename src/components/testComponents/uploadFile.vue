@@ -263,6 +263,15 @@
                 :append-icon="'mdi-close'"
                 @click:append="dataR1 = null"
               ></v-text-field>
+              <v-text-field
+                v-model="dataV1"
+                :disabled="bol1 != null"
+                @click.native="bol1 = null"
+                label="Viento 1"
+                filled
+                :append-icon="'mdi-close'"
+                @click:append="dataV1 = null"
+              ></v-text-field>
               <v-row dense>
                 <v-col cols="6">
                   <v-btn
@@ -301,6 +310,15 @@
                 filled
                 :append-icon="'mdi-close'"
                 @click:append="dataR2 = null"
+              ></v-text-field>
+              <v-text-field
+                v-model="dataV2"
+                :disabled="bol2 != null"
+                @click.native="bol2 = null"
+                label="Viento 2"
+                filled
+                :append-icon="'mdi-close'"
+                @click:append="dataV2 = null"
               ></v-text-field>
               <v-row dense>
                 <v-col cols="6">
@@ -341,6 +359,15 @@
                 :append-icon="'mdi-close'"
                 @click:append="dataR3 = null"
               ></v-text-field>
+              <v-text-field
+                v-model="dataV3"
+                :disabled="bol3 != null"
+                @click.native="bol3 = null"
+                label="Viento 3"
+                filled
+                :append-icon="'mdi-close'"
+                @click:append="dataV3 = null"
+              ></v-text-field>
               <v-row dense>
                 <v-col cols="6">
                   <v-btn
@@ -379,6 +406,15 @@
                 filled
                 :append-icon="'mdi-close'"
                 @click:append="dataR4 = null"
+              ></v-text-field>
+              <v-text-field
+                v-model="dataV4"
+                :disabled="bol4 != null"
+                @click.native="bol4 = null"
+                label="Viento 4"
+                filled
+                :append-icon="'mdi-close'"
+                @click:append="dataV4 = null"
               ></v-text-field>
               <v-row dense>
                 <v-col cols="6">
@@ -419,6 +455,15 @@
                 :append-icon="'mdi-close'"
                 @click:append="dataR5 = null"
               ></v-text-field>
+              <v-text-field
+                v-model="dataV5"
+                :disabled="bol5 != null"
+                @click.native="bol5 = null"
+                label="Viento 5"
+                filled
+                :append-icon="'mdi-close'"
+                @click:append="dataV5 = null"
+              ></v-text-field>
               <v-row dense>
                 <v-col cols="6">
                   <v-btn
@@ -457,6 +502,15 @@
                 filled
                 :append-icon="'mdi-close'"
                 @click:append="dataR6 = null"
+              ></v-text-field>
+              <v-text-field
+                v-model="dataV6"
+                :disabled="bol6 != null"
+                @click.native="bol6 = null"
+                label="Viento 6"
+                filled
+                :append-icon="'mdi-close'"
+                @click:append="dataV6 = null"
               ></v-text-field>
               <v-row dense>
                 <v-col cols="6">
