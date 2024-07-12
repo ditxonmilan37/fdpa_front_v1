@@ -222,6 +222,7 @@ export default {
     },
 
     openEdit(item) {
+      this._getListTest();
       this.id_selected = item.id;
       this.id_test = item.id_test;
       this.id_category = item.id_category;
@@ -310,7 +311,7 @@ export default {
 
       var config = {
         method: "get",
-        url: process.env.VUE_APP_URLBASE + "test/listAll",
+        url: process.env.VUE_APP_URLBASE + "testadmin/listAll",
         headers: {},
       };
 

@@ -152,6 +152,17 @@
             $store.state.mode_juez == false
           "
         >
+
+     
+          <template
+        v-if="!$store.state.mode_juez"
+        v-slot:[`item.actions`]="{ item }"
+      >
+      <v-btn fab x-small color="orange" @click.stop="openEdit(item)">
+  <v-icon>mdi-pencil</v-icon>
+</v-btn>
+      </template>
+        
           <template v-slot:[`item.result1`]="{ item }">
             <v-chip color="warning" v-if="item.bol1 == 1" small>-</v-chip>
             <v-chip color="error" v-if="item.bol1 == 0" small>X</v-chip>
@@ -896,6 +907,34 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog
+      v-model="dialogEditAtleta"
+      scrollable
+      persistent
+      :overlay="false"
+      max-width="600"
+      transition="dialog-transition"
+    >
+      <v-card class="__card_main" dark>
+        <v-card-title dark> Editar atleta </v-card-title>
+        <v-card-text>
+          <v-text-field
+            v-model="atletaeditar"
+            filled
+            type="text"
+       
+          ></v-text-field>
+          <v-btn block color="success" @click="_setCamp5()">ACTUALIZAR</v-btn>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn outlined @click="dialogEditAtleta = false" color="error"
+            >Cerrar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -908,6 +947,7 @@ export default {
       dialogResultCamp: false,
       dialogMedida: false,
       dialogRM2: false,
+      dialogEditAtleta: false,
       itemsData: [],
       files: [],
       content: "",
@@ -931,6 +971,8 @@ export default {
       bol4: null,
       bol5: null,
       bol6: null,
+      atletaeditar: null,
+      atletaeditarid: null,
 
       idM2: null,
 
@@ -961,6 +1003,7 @@ export default {
         { text: "Grupo", value: "camp6" },
         { text: "Tiempo", value: "camp7" },
         { text: "Diferencia", value: "camp9" },
+        { text: "Acciones", value: "actions"}
       ],
       headersResultsJuez: [
         { text: "Participante", value: "camp5" },
@@ -986,6 +1029,11 @@ export default {
     close() {
       this.$store.state.__modal_test_upload_file = false;
       this.itemsResults = [];
+    },
+    openEdit(item) {
+      this.atletaeditar = item.camp5;
+      this.atletaeditarid = item.id;
+      this.dialogEditAtleta = true;
     },
     openM2(item, child) {
       this.idM2 = child.id;
@@ -1138,6 +1186,43 @@ export default {
           console.log(error);
         });
     },
+
+    _setCamp5() {
+      let vm = this;
+      var data = JSON.stringify({
+        id: vm.atletaeditarid,
+        camp5: vm.atletaeditar,
+      });
+
+      var config = {
+        method: "post",
+        url: process.env.VUE_APP_URLBASE + "results/update/camp5",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios(config)
+        .then(function (response) {
+          if (response.data.statusBol == true) {
+            vm.$swal({
+              position: "top-end",
+              icon: "success",
+              title: "Atleta actualizado",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            vm.dialogEditAtleta = false;
+            vm._getResults();
+    vm._getResultsM2();
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
 
     _setSize() {
       let vm = this;
