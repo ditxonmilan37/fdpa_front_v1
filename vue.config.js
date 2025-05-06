@@ -9,6 +9,9 @@ module.exports = defineConfig({
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: '#15182F',
   },
+  // devServer: {
+  //   port: 8081
+  // },  
 
 });
 
