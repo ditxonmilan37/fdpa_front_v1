@@ -158,8 +158,11 @@
         v-if="!$store.state.mode_juez"
         v-slot:[`item.actions`]="{ item }"
       >
-      <v-btn fab x-small color="orange" @click.stop="openEdit(item)">
+      <v-btn fab x-small color="orange" @click.stop="openEdit(item)" class="mr-2">
   <v-icon>mdi-pencil</v-icon>
+</v-btn>
+      <v-btn fab x-small color="error" @click.stop="deleteAtleta(item)">
+  <v-icon>mdi-delete</v-icon>
 </v-btn>
       </template>
         
@@ -923,9 +926,15 @@
             v-model="atletaeditar"
             filled
             type="text"
-       
+            label="Nombre del atleta"
           ></v-text-field>
-          <v-btn block color="success" @click="_setCamp5()">ACTUALIZAR</v-btn>
+          <v-text-field
+            v-model="grupoeditar"
+            filled
+            type="text"
+            label="Grupo"
+          ></v-text-field>
+          <v-btn block color="success" @click="_updateAtleta()">ACTUALIZAR</v-btn>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -972,6 +981,7 @@ export default {
       bol5: null,
       bol6: null,
       atletaeditar: null,
+      grupoeditar: null,
       atletaeditarid: null,
 
       idM2: null,
@@ -1032,8 +1042,26 @@ export default {
     },
     openEdit(item) {
       this.atletaeditar = item.camp5;
+      this.grupoeditar = item.camp6;
       this.atletaeditarid = item.id;
       this.dialogEditAtleta = true;
+    },
+    deleteAtleta(item) {
+      let vm = this;
+      vm.$swal({
+        title: '¿Estás seguro?',
+        text: `¿Deseas eliminar al atleta ${item.camp5}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          vm._deleteAtleta(item.id);
+        }
+      });
     },
     openM2(item, child) {
       this.idM2 = child.id;
@@ -1187,16 +1215,18 @@ export default {
         });
     },
 
-    _setCamp5() {
+    _updateAtleta() {
       let vm = this;
       var data = JSON.stringify({
-        id: vm.atletaeditarid,
         camp5: vm.atletaeditar,
+        camp7: vm.itemsResults.find(item => item.id === vm.atletaeditarid)?.camp7 || null,
+        camp6: vm.grupoeditar,
+        status: 1
       });
 
       var config = {
-        method: "post",
-        url: process.env.VUE_APP_URLBASE + "results/update/camp5",
+        method: "put",
+        url: process.env.VUE_APP_URLBASE + "results/" + vm.atletaeditarid,
         headers: {
           "Content-Type": "application/json",
         },
@@ -1215,11 +1245,54 @@ export default {
             });
             vm.dialogEditAtleta = false;
             vm._getResults();
-    vm._getResultsM2();
+            vm._getResultsM2();
           }
         })
         .catch(function (error) {
           console.log(error);
+          vm.$swal({
+            position: "top-end",
+            icon: "error",
+            title: "Error al actualizar",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
+    },
+    _deleteAtleta(id) {
+      let vm = this;
+
+      var config = {
+        method: "delete",
+        url: process.env.VUE_APP_URLBASE + "results/" + id,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      axios(config)
+        .then(function (response) {
+          if (response.data.statusBol == true) {
+            vm.$swal({
+              position: "top-end",
+              icon: "success",
+              title: "Atleta eliminado",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            vm._getResults();
+            vm._getResultsM2();
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          vm.$swal({
+            position: "top-end",
+            icon: "error",
+            title: "Error al eliminar",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
     },
 
